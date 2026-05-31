@@ -1,0 +1,232 @@
+﻿<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Carrow Lake - jeu narratif mystere v2</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.30.0/dist/tabler-icons.min.css">
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+<h2 class="sr-only">Carrow Lake — jeu narratif mystère v2</h2>
+<div id="clo"><div id="clg">
+
+<!-- HOME -->
+<div id="sh" style="display:block">
+<div class="home-hero">
+<div class="home-hero-bg"></div>
+<div class="home-stars"></div>
+<div class="home-mist"></div>
+<button id="newsButton" class="news-button" onclick="openNewsModal()" aria-label="Ouvrir les actus">
+<i class="ti ti-sparkles" aria-hidden="true"></i>
+<span id="newsBadge" class="news-badge"></span>
+</button>
+<button id="wallpaperButton" class="wallpaper-button" onclick="openWallpaperModal()" aria-label="Changer le fond d’écran">
+<i class="ti ti-photo" aria-hidden="true"></i>
+</button>
+<div class="home-title-wrap">
+<div class="home-kicker">UNE HISTOIRE DE MYSTÈRE</div>
+<div class="home-title">CARROW</div>
+<div class="home-title home-title-strong">LAKE</div>
+</div>
+</div>
+<button class="hb play-home-btn" id="bplay" onclick="handlePlay()"><span>▶&nbsp;&nbsp;JOUER</span><span id="svhi"></span></button>
+<button class="hb restart-home-btn" onclick="handleRestart()"><span>↺&nbsp;&nbsp;RECOMMENCER</span><span>TOUT EFFACER</span></button>
+<div class="home-split-btn" aria-label="Progrès et événements">
+<button class="home-split-part split-progress" id="bprogress" onclick="openProgressScreen()" aria-label="Ouvrir les progrès">
+<span class="split-main"><i id="progressIcon" class="ti ti-trophy" aria-hidden="true"></i> PROGRÈS</span>
+<span id="progressHomeCount" class="split-sub">PASSAGES DÉBLOQUÉS</span>
+</button>
+<button class="home-split-part split-events is-locked" disabled aria-label="Événements bientôt">
+<span class="split-main"><i class="ti ti-alert-triangle" aria-hidden="true"></i> ÉVÉNEMENTS</span>
+<span class="split-sub"><i class="ti ti-lock" aria-hidden="true"></i> BIENTÔT</span>
+</button>
+</div>
+
+<div id="newsModal" class="news-modal" aria-hidden="true" onclick="if(event.target===this)closeNewsModal()">
+<div class="news-panel">
+<div class="news-head">
+<div>ACTUS</div>
+<button class="news-close" onclick="closeNewsModal()" aria-label="Fermer les actus"><i class="ti ti-x" aria-hidden="true"></i></button>
+</div>
+<div id="newsVersion" class="news-version"></div>
+<h3 id="newsTitle"></h3>
+<div id="newsBody" class="news-body"></div>
+</div>
+</div>
+
+<div id="wallpaperModal" class="wallpaper-modal" aria-hidden="true" onclick="if(event.target===this)closeWallpaperModal()">
+<div class="wallpaper-panel">
+<div class="wallpaper-head">
+<div>FONDS D’ÉCRAN</div>
+<button class="wallpaper-close" onclick="closeWallpaperModal()" aria-label="Fermer les fonds d’écran"><i class="ti ti-x" aria-hidden="true"></i></button>
+</div>
+<div class="wallpaper-version">Débloqués avec la route des progrès</div>
+<div id="wallpaperList" class="wallpaper-list"></div>
+</div>
+</div>
+</div>
+
+<!-- PROGRESS -->
+<div id="sprogress">
+<div class="progress-head">
+<button class="progress-back" onclick="goHome()">← Retour</button>
+<div class="progress-kicker">ARCHIVES DÉBLOQUÉES</div>
+<h2>PROGRÈS</h2>
+<p>Les fragments de Carrow Lake que vous avez réellement vécus.</p>
+</div>
+<div class="progress-summary">
+<div id="progressCount">0 / 0 débloqués</div>
+<div class="progress-reward">
+<div class="progress-track">
+<div id="progressFill"></div>
+<div id="progressRewardTicks" class="progress-reward-ticks"></div>
+</div>
+<div class="progress-reward-caption"><i class="ti ti-photo" aria-hidden="true"></i> Fonds d’écran à débloquer avec les progrès</div>
+</div>
+</div>
+<div id="progressList" class="progress-list"></div>
+</div>
+
+<!-- CHAR SELECT -->
+<div id="schar" style="display:none;background:#05050f;flex-direction:column;align-items:center;padding:52px 20px 36px">
+<div style="font-size:8px;letter-spacing:5px;color:#38305e;margin-bottom:10px;font-family:Georgia,serif">AVANT DE COMMENCER</div>
+<div style="font-size:20px;color:#a8a0cc;font-family:'Palatino Linotype',Palatino,serif;margin-bottom:6px">Qui êtes-vous ?</div>
+<div style="font-size:11px;color:#26204a;margin-bottom:38px;text-align:center">Votre choix façonnera toute l'histoire</div>
+<div style="display:flex;gap:12px;width:100%">
+<button onclick="selectChar('Elyos')" style="flex:1;background:#0d0c20;border:1px solid #201e45;border-radius:14px;padding:20px 10px 22px;cursor:pointer;text-align:center">
+<div style="width:60px;height:60px;border-radius:50%;background:#161330;border:1.5px solid #2e2858;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:26px">🧢</div>
+<div style="font-size:17px;color:#c8c0e8;font-family:'Palatino Linotype',Palatino,serif;margin-bottom:8px">Elyos</div>
+<div style="font-size:10px;color:#36305a;line-height:1.7">Blond aux yeux bleus.<br>Simple mais remarqué.</div>
+</button>
+<div style="flex:1;background:#070710;border:1px solid #12112a;border-radius:14px;padding:20px 10px 22px;text-align:center;position:relative;cursor:not-allowed">
+<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:2;border-radius:14px;background:rgba(3,2,10,.72)">
+<div style="text-align:center"><i class="ti ti-lock" style="font-size:22px;color:#22183a;display:block;margin-bottom:6px" aria-hidden="true"></i><div style="font-size:8px;color:#1a1430;letter-spacing:2.5px">FUTUR JEU</div></div>
+</div>
+<div style="width:60px;height:60px;border-radius:50%;background:#0e0c22;border:1.5px solid #181630;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:26px;opacity:.3">👓</div>
+<div style="font-size:17px;color:#403858;font-family:'Palatino Linotype',Palatino,serif;margin-bottom:8px">Lou</div>
+<div style="font-size:10px;color:#20183e;line-height:1.7">Blonde aux yeux bleus.<br>Lunettes rondes crème &amp; or.</div>
+</div>
+</div>
+</div>
+
+<!-- SMS -->
+<div id="ssms" class="s1-phone" style="display:none">
+<div class="s3-statusbar">
+<span>19h43</span>
+<span class="s3-phone-icons"><span>4G</span><span aria-hidden="true">▰</span></span>
+</div>
+<div class="s3-chathead">
+<button class="s3-back" onclick="goHome()" aria-label="Retour">←</button>
+<div class="s3-avatar">?</div>
+<div class="s3-contact">
+<div class="s3-name">Inconnu</div>
+<div id="s1presence" class="s3-presence online">En ligne</div>
+</div>
+<div class="s1-warning">Suspect</div>
+</div>
+<div id="smsg" class="s3-messages"></div>
+<div id="sch" class="s3-choices"></div>
+</div>
+
+<!-- NARRATIVE -->
+<div id="sn" style="display:none" onclick="narrNext()">
+<div id="snbg"></div><div id="snbg2"></div>
+<div id="snov"></div>
+<div id="sncn"><div id="snlb">SCÈNE 2 — CARROW LAKE</div><div id="sntx"></div></div>
+<div id="snft"><div id="snpg"></div><span id="snhi">APPUYER POUR CONTINUER</span></div>
+</div>
+
+<!-- SCENE 3 HYBRIDE -->
+<div id="s3">
+<div id="s3chat" class="s3-mode">
+<div class="s3-statusbar">
+<span>02:13</span>
+<span class="s3-phone-icons"><span id="s3network">Wi-Fi Hôtel</span><span aria-hidden="true">▰</span></span>
+</div>
+<div class="s3-chathead">
+<button class="s3-back" onclick="goHome()" aria-label="Retour">←</button>
+<div class="s3-avatar">?</div>
+<div class="s3-contact">
+<div class="s3-name">Inconnu</div>
+<div id="s3presence" class="s3-presence">Utilisateur bloqué</div>
+</div>
+</div>
+<div id="s3msgs" class="s3-messages"></div>
+<div id="s3choices" class="s3-choices"></div>
+</div>
+<div id="s3narr" class="s3-mode" onclick="s3NarrNext()">
+<div id="s3narrBg" class="s3-narr-bg"></div>
+<div class="s3-narr-vignette"></div>
+<div class="s3-narr-label">SCÈNE 3 — CHAMBRE 12</div>
+<div id="s3narrText" class="s3-narr-text"></div>
+<div id="s3narrPg" class="s3-narr-progress"></div>
+<div id="s3narrChoices" class="s3-narr-choices"></div>
+<div id="s3narrHint" class="s3-narr-hint">APPUYER POUR CONTINUER</div>
+</div>
+<div id="s3black" class="s3-mode">
+<div id="s3coming" class="s3-coming"></div>
+</div>
+</div>
+
+<!-- SCENE 4 STORY -->
+<div id="s4">
+<div id="s4bg" class="s4-bg"></div>
+<div class="s4-vignette"></div>
+
+<div id="s4narr" class="s4-mode" onclick="s4NarrNext()">
+<div id="s4narrLabel" class="s4-narr-label">SCÈNE 4 — LA FORÊT NOIRE</div>
+<div id="s4narrText" class="s4-narr-text"></div>
+<div id="s4narrPg" class="s4-narr-progress"></div>
+<div class="s4-narr-hint">APPUYER POUR CONTINUER</div>
+</div>
+
+<div id="s4talk" class="s4-mode">
+<div class="s4-scene-tag">SCÈNE 4</div>
+<div class="s4-talk-shell">
+<div id="s4speaker" class="s4-speaker">LOU</div>
+<div id="s4dialogue" class="s4-dialogue"></div>
+<div id="s4talkActions" class="s4-talk-actions"></div>
+</div>
+</div>
+
+<div id="s4sms" class="s4-mode s4-phone">
+<div class="s3-statusbar">
+<span id="s4phoneTime">00:00</span>
+<span class="s3-phone-icons"><span>4G</span><span aria-hidden="true">▰</span></span>
+</div>
+<div class="s3-chathead">
+<button class="s3-back" onclick="goHome()" aria-label="Retour">←</button>
+<div class="s3-avatar">L</div>
+<div class="s3-contact">
+<div id="s4smsName" class="s3-name">La Vraie Lou (?)</div>
+<div class="s3-presence online">En ligne</div>
+</div>
+</div>
+<div id="s4msgs" class="s3-messages"></div>
+<div id="s4smsActions" class="s3-choices"></div>
+</div>
+<div id="s4end" class="s4-mode">
+<div id="s4endContent" class="s4-end-content"></div>
+</div>
+</div>
+
+<!-- COMING SOON -->
+<div id="sso" style="display:none;background:#05050f;flex-direction:column;align-items:center;justify-content:center;padding:52px 28px;text-align:center;min-height:570px">
+<div class="cf1" style="width:34px;height:1.5px;background:#1c1638;margin:0 auto 42px"></div>
+<div class="cf1" style="font-size:8px;letter-spacing:6px;color:#241c3c;margin-bottom:20px;font-family:Georgia,serif">L'HISTOIRE CONTINUE</div>
+<div class="cf2" style="font-size:24px;font-family:'Palatino Linotype',Palatino,serif;color:#524898;margin-bottom:16px">Prochainement…</div>
+<div class="cf2" style="display:flex;gap:7px;justify-content:center;margin-bottom:22px">
+<span style="width:7px;height:7px;border-radius:50%;background:#261e48;animation:dot 1.5s .3s infinite;display:block"></span>
+<span style="width:7px;height:7px;border-radius:50%;background:#1e1638;animation:dot 1.5s .65s infinite;display:block"></span>
+<span style="width:7px;height:7px;border-radius:50%;background:#261e48;animation:dot 1.5s 1s infinite;display:block"></span>
+</div>
+<div class="cf3" style="font-size:12px;color:#221c40;line-height:2;max-width:265px;margin-bottom:48px">La <em style="color:#38306a;font-style:italic">scène 6</em> est actuellement<br>en cours de développement.<br>Revenez bientôt pour découvrir<br>la suite de votre aventure à<br><em style="color:#38306a">Carrow Lake</em>.</div>
+<button class="cf4" onclick="goHome()" style="background:#0c0c24;border:1px solid #22204a;border-radius:8px;padding:13px 28px;color:#4a4280;font-size:11px;letter-spacing:3px;cursor:pointer;font-family:Georgia,serif">← MENU PRINCIPAL</button>
+</div>
+
+<div id="progressToast" class="progress-toast" aria-live="polite"></div>
+</div></div>
+  <script src="./js/bootstrap.js?v=0.5.2"></script>
+</body>
+</html>
